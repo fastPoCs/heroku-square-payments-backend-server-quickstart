@@ -102,7 +102,7 @@ function getOrderRequest(locationId, amount, orderName) {
       locationId: locationId,
       lineItems: [
         {
-          name: orderName,
+          name: "Cookie 🍪",
           quantity: "1",
           basePriceMoney: {
             amount: amount,
