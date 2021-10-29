@@ -73,10 +73,10 @@ function getOrderRequest(locationId, amount, orderName) {
       locationId: locationId,
       lineItems: [
         {
-          name: orderName,
+          name: "whatever",
           quantity: "1",
           basePriceMoney: {
-            amount: amount,
+            amount: 100,
             currency: "USD"
           }
         }
