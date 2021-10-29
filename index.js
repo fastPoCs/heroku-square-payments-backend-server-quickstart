@@ -17,35 +17,6 @@ const defaultClient = new Client({
 
 const { paymentsApi, ordersApi, locationsApi, customersApi } = defaultClient;
 
-app.post('/chargeForCookie', async (request, response) => {
-  const requestBody = request.body;
-  try {
-    const listLocationsResponse = await locationsApi.listLocations();
-    const locationId = listLocationsResponse.result.locations[0].id;
-    const createOrderRequest = getOrderRequest(locationId, amount, name);
-    const createOrderResponse = await ordersApi.createOrder(createOrderRequest);
-
-    const createPaymentRequest = {
-      idempotencyKey: crypto.randomBytes(12).toString('hex'),
-      sourceId: requestBody.nonce,
-      amountMoney: {
-        ...createOrderResponse.result.order.totalMoney,
-      },
-      orderId: createOrderResponse.result.order.id,
-      autocomplete: true,
-    };
-    const createPaymentResponse = await paymentsApi.createPayment(createPaymentRequest);
-    console.log(createPaymentResponse.result.payment);
-
-    response.status(200).json(createPaymentResponse.result.payment);
-  } catch (e) {
-    console.log(
-      `[Error] Status:${e.statusCode}, Messages: ${JSON.stringify(e.errors, null, 2)}`);
-
-    sendErrorMessage(e.errors, response);
-  }
-});
-
 app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
   const amount = request.amount;
@@ -102,7 +73,7 @@ function getOrderRequest(locationId, amount, orderName) {
       locationId: locationId,
       lineItems: [
         {
-          name: "Cookie 🍪",
+          name: orderName,
           quantity: "1",
           basePriceMoney: {
             amount: amount,
