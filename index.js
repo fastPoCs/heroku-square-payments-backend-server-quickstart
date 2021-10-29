@@ -22,7 +22,7 @@ app.post('/chargeForCookie', async (request, response) => {
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
-    const createOrderRequest = getOrderRequest(locationId);
+    const createOrderRequest = getOrderRequest(locationId, amount, name);
     const createOrderResponse = await ordersApi.createOrder(createOrderRequest);
 
     const createPaymentRequest = {
@@ -48,11 +48,12 @@ app.post('/chargeForCookie', async (request, response) => {
 
 app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
-
+  const amount = request.amount;
+  const orderName = request.orderName;
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
-    const createOrderRequest = getOrderRequest(locationId);
+    const createOrderRequest = getOrderRequest(locationId, amount, orderName);
     const createOrderResponse = await ordersApi.createOrder(createOrderRequest);
     const createPaymentRequest = {
       idempotencyKey: crypto.randomBytes(12).toString('hex'),
@@ -94,17 +95,17 @@ app.post('/createCustomerCard', async (request, response) => {
   }
 });
 
-function getOrderRequest(locationId) {
+function getOrderRequest(locationId, amount, orderName) {
   return {
     idempotencyKey: crypto.randomBytes(12).toString('hex'),
     order: {
       locationId: locationId,
       lineItems: [
         {
-          name: "Cookie 🍪",
+          name: orderName,
           quantity: "1",
           basePriceMoney: {
-            amount: 100,
+            amount: amount,
             currency: "USD"
           }
         }
