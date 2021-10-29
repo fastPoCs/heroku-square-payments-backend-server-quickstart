@@ -19,12 +19,12 @@ const { paymentsApi, ordersApi, locationsApi, customersApi } = defaultClient;
 
 app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
-  const amount = requestBody.amount;
-  const orderName = requestBody.orderName;
+  // const amount = requestBody.amount;
+  // const orderName = requestBody.orderName;
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
-    const createOrderRequest = getOrderRequest(locationId, amount, orderName);
+    const createOrderRequest = getOrderRequest(locationId, 100, "whatever");
     const createOrderResponse = await ordersApi.createOrder(createOrderRequest);
     const createPaymentRequest = {
       idempotencyKey: crypto.randomBytes(12).toString('hex'),
