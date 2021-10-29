@@ -19,8 +19,8 @@ const { paymentsApi, ordersApi, locationsApi, customersApi } = defaultClient;
 
 app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
-  const amount = request.amount;
-  const orderName = request.orderName;
+  const amount = requestBody.amount;
+  const orderName = requestBody.orderName;
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
