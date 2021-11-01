@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const base = require('airtable').base('appmiRjzJTfk1VVWm');
 
 
-import {appendJsonToAirtable} from './append_to_airtable';
+var appendJsonToAirtable = require("append_to_airtable");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -51,8 +51,8 @@ app.post('/chargeCustomerCard', async (request, response) => {
       "location": requestBody.location,
       "bookerEmail": requestBody.bookerEmail
     };
-    appendJsonToAirtable(lambdaJson);
-    
+    appendJsonToAirtable.appendJsonToAirtable(lambdaJson);
+
     console.log(lambdaJson);
     // PYTHONLAMBDA.
     response.status(200).json(createPaymentResponse.result.payment);
