@@ -49,7 +49,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
       "location": requestBody.location,
       "bookerEmail": requestBody.bookerEmail
     };
-    util.appendJsonToAirtable(lambdaJson);
+    // util.appendJsonToAirtable(lambdaJson);
 
     console.log(lambdaJson);
     // PYTHONLAMBDA.
