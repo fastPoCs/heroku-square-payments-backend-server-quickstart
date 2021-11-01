@@ -3,8 +3,7 @@ const app = express();
 const { Client, Environment } = require("square");
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
-
-const appendJsonToAirtable = require("./util");
+var Airtable = require('airtable');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -49,7 +48,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
       "location": requestBody.location,
       "bookerEmail": requestBody.bookerEmail
     };
-    util.appendJsonToAirtable(lambdaJson);
+    appendJsonToAirtable(lambdaJson);
 
     console.log(lambdaJson);
     // PYTHONLAMBDA.
@@ -159,3 +158,22 @@ function sendErrorMessage(errors, response) {
 const listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+function appendJsonToAirtable(jsonToAppend) {
+  var base = new Airtable({apiKey: 'key9wXBUzD4Ipemsg'}).base('appmiRjzJTfk1VVWm');
+
+  base('purchases').create([
+      {
+        jsonToAppend
+      },
+    ], function(err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      records.forEach(function (record) {
+        console.log(record.getId());
+      });
+    });
+
+}
