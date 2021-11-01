@@ -8,10 +8,11 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "airtable": "^0.11.1",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "grant-express": "^4.2.2",
-    "square": "7.0.0",
-    "body-parser": "^1.18.3"
+    "square": "7.0.0"
   },
   "engines": {
     "node": "8.x"

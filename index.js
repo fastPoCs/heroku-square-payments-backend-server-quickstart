@@ -3,6 +3,10 @@ const app = express();
 const { Client, Environment } = require("square");
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
+const base = require('airtable').base('appmiRjzJTfk1VVWm');
+
+
+import {appendJsonToAirtable} from './append_to_airtable';
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -37,6 +41,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
       autocomplete: true,
     };
     const createPaymentResponse = await paymentsApi.createPayment(createPaymentRequest);
+
     lambdaJson = {
       "purchaseDateTime" : requestBody.purchaseDateTime, 
       "activityDateTime":requestBody.activityDateTime,
@@ -46,7 +51,10 @@ app.post('/chargeCustomerCard', async (request, response) => {
       "location": requestBody.location,
       "bookerEmail": requestBody.bookerEmail
     };
+    appendJsonToAirtable(lambdaJson);
+    
     console.log(lambdaJson);
+    // PYTHONLAMBDA.
     response.status(200).json(createPaymentResponse.result.payment);
   } catch (e) {
     console.log(
