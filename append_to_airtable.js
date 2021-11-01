@@ -1,5 +1,6 @@
+var Airtable = require('airtable');
+
 function appendJsonToAirtable(jsonToAppend) {
-    var Airtable = require('airtable');
     var base = new Airtable({apiKey: 'key9wXBUzD4Ipemsg'}).base('appmiRjzJTfk1VVWm');
 
     base('purchases').create([
