@@ -3,10 +3,8 @@ const app = express();
 const { Client, Environment } = require("square");
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
-const base = require('airtable').base('appmiRjzJTfk1VVWm');
 
-
-var appendJsonToAirtable = require("append_to_airtable");
+var appendJsonToAirtable = require("./append_to_airtable");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
