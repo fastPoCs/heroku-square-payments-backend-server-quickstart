@@ -43,16 +43,17 @@ app.post('/chargeCustomerCard', async (request, response) => {
       fields: {
         "purchaseDateTime" : requestBody.purchaseDateTime, 
         "activityDateTime":requestBody.activityDateTime,
-        "activityPrice": amount / 100,
+        "activityPrice": amount,
         "groupSize": requestBody.groupSize,
         "activity": orderName,
         "location": requestBody.location,
-        "bookerEmail": requestBody.bookerEmail
+        "bookerEmail": requestBody.bookerEmail,
+        "receiptUrl": createPaymentResponse.result.payment.receiptUrl
       }
     };
     appendJsonToAirtable(lambdaJson);
 
-    console.log(lambdaJson);
+    console.log(createPaymentResponse.result.payment);
     // PYTHONLAMBDA.
     response.status(200).json(createPaymentResponse.result.payment);
   } catch (e) {
