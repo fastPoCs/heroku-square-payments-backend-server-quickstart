@@ -4,7 +4,7 @@ const { Client, Environment } = require("square");
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 
-var appendJsonToAirtable = require("./append_to_airtable");
+const appendJsonToAirtable = require("./util");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -49,7 +49,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
       "location": requestBody.location,
       "bookerEmail": requestBody.bookerEmail
     };
-    appendJsonToAirtable.appendJsonToAirtable(lambdaJson);
+    util.appendJsonToAirtable(lambdaJson);
 
     console.log(lambdaJson);
     // PYTHONLAMBDA.

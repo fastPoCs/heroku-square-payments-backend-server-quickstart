@@ -18,3 +18,4 @@ function appendJsonToAirtable(jsonToAppend) {
       });
 
 }
+module.exports = { appendJsonToAirtable };
