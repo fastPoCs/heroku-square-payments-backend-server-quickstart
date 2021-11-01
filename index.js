@@ -21,6 +21,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
   const orderName = requestBody.orderName;
   const amount = requestBody.amount;
+  console.log(requestBody);
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
