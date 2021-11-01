@@ -40,13 +40,15 @@ app.post('/chargeCustomerCard', async (request, response) => {
     const createPaymentResponse = await paymentsApi.createPayment(createPaymentRequest);
 
     lambdaJson = {
-      "purchaseDateTime" : requestBody.purchaseDateTime, 
-      "activityDateTime":requestBody.activityDateTime,
-      "activityPrice": amount / 100,
-      "groupSize": requestBody.groupSize,
-      "activity": orderName,
-      "location": requestBody.location,
-      "bookerEmail": requestBody.bookerEmail
+      fields: {
+        "purchaseDateTime" : requestBody.purchaseDateTime, 
+        "activityDateTime":requestBody.activityDateTime,
+        "activityPrice": amount / 100,
+        "groupSize": requestBody.groupSize,
+        "activity": orderName,
+        "location": requestBody.location,
+        "bookerEmail": requestBody.bookerEmail
+      }
     };
     appendJsonToAirtable(lambdaJson);
 
@@ -163,9 +165,7 @@ function appendJsonToAirtable(jsonToAppend) {
   var base = new Airtable({apiKey: 'key9wXBUzD4Ipemsg'}).base('appmiRjzJTfk1VVWm');
 
   base('purchases').create([
-      {
         jsonToAppend
-      },
     ], function(err, records) {
       if (err) {
         console.error(err);
