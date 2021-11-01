@@ -21,7 +21,6 @@ app.post('/chargeCustomerCard', async (request, response) => {
   const requestBody = request.body;
   const orderName = requestBody.orderName;
   const amount = requestBody.amount;
-  console.log(requestBody);
   try {
     const listLocationsResponse = await locationsApi.listLocations();
     const locationId = listLocationsResponse.result.locations[0].id;
@@ -38,8 +37,16 @@ app.post('/chargeCustomerCard', async (request, response) => {
       autocomplete: true,
     };
     const createPaymentResponse = await paymentsApi.createPayment(createPaymentRequest);
-    console.log(createPaymentResponse.result.payment);
-
+    lambdaJson = {
+      "purchaseDateTime" : requestBody.purchaseDateTime, 
+      "activityDateTime":requestBody.activityDateTime,
+      "activityPrice": amount / 100,
+      "groupSize": requestBody.groupSize,
+      "activity": requestBody.activity,
+      "location": requestBody.location,
+      "bookerEmail": requestBody.bookerEmail
+    };
+    console.log(lambdaJson);
     response.status(200).json(createPaymentResponse.result.payment);
   } catch (e) {
     console.log(
