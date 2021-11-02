@@ -45,6 +45,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
         "activityDateTime":requestBody.activityDateTime,
         "activityPrice": amount,
         "groupSize": requestBody.groupSize,
+        "duration": requestBody.duration,
         "activity": orderName,
         "location": requestBody.location,
         "bookerEmail": requestBody.bookerEmail,
