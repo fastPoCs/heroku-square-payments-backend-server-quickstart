@@ -50,7 +50,8 @@ app.post('/chargeCustomerCard', async (request, response) => {
         "location": requestBody.location,
         "bookerEmail": requestBody.bookerEmail,
         "receiptUrl": createPaymentResponse.result.payment.receiptUrl,
-        "privacy": requestBody.privacy
+        "privacy": requestBody.privacy,
+        "hostCompany": requestBody.hostCompany
       }
     };
     appendJsonToAirtable(lambdaJson);
