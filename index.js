@@ -38,7 +38,7 @@ app.post('/chargeCustomerCard', async (request, response) => {
       autocomplete: true,
     };
     const createPaymentResponse = await paymentsApi.createPayment(createPaymentRequest);
-
+    // initiating rebuild
     lambdaJson = {
       fields: {
         "purchaseDateTime" : requestBody.purchaseDateTime, 
